@@ -11,10 +11,10 @@ const auth = (req, res) => {
     const { login, password } = req.body
 
     User.findOne({ login }, (err, response) => {
-        if(err) console.log(err)
+        if(err) return res.status(400).json('Bad request')
 
         if(!response) {
-            res.status(401).send({
+            return res.status(401).send({
                 type: 'USER_NOT_FOUND',
                 message: 'Пользователь не найден'
             })
@@ -23,9 +23,9 @@ const auth = (req, res) => {
 
             if(isValid) {
                 const token = jwt.sign(response._id.toString(), process.env.SECRET_KEY)
-                res.json({ token, login: response.login })
+                return res.json({ token, login: response.login })
             } else {
-                res.status(401).json('Неправильный логин/пароль')
+                return res.status(401).json('Неправильный логин/пароль')
             }
         }
     })

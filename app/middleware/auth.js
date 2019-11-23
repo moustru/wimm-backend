@@ -3,11 +3,12 @@ require('dotenv').config();
 
 module.exports = (req, res, next) => {
     const authHeader = req.get('Authorization');
-    const token = authHeader.replace('Bearer ', '');
 
     if(!authHeader) {
         res.status(401).json({ message: 'Токен не найден' })
     } else {
+        const token = authHeader.replace('Bearer ', '');
+
         try {
             jwt.verify(token, process.env.SECRET_KEY);
         } catch(e) {
