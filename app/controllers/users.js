@@ -6,7 +6,7 @@ require('dotenv').config()
 const User = mongoose.model('User')
 
 const auth = (req, res) => {
-    if(!req.body) res.sendStatus(400)
+    if(!req.body) return res.sendStatus(400)
 
     const { login, password } = req.body
 
@@ -23,7 +23,7 @@ const auth = (req, res) => {
 
             if(isValid) {
                 const token = jwt.sign(response._id.toString(), process.env.SECRET_KEY)
-                return res.json({ token, login: response.login })
+                return res.json({ token, login: response._id })
             } else {
                 return res.status(401).json('Неправильный логин/пароль')
             }
@@ -41,17 +41,17 @@ const reg = (req, res) => {
         password: bCrypt.hashSync(req.body.password, salt),
         createdAt: new Date().getTime()
     }, (err, results) => {
-        if(err) res.status(400).json({ message: 'Bad request' })
+        if(err) return res.status(400).json({ message: 'Bad request' })
 
         if(results) {
             const token = jwt.sign(results._id.toString(), process.env.SECRET_KEY)
-            res.json({
+            return res.json({
                 id: results.insertedId,
                 token,
                 login: req.body.login
             })
         } else {
-            res.status(400).json({ message: 'Bad request' })
+            return res.status(400).json({ message: 'Bad request' })
         }
     })
 }

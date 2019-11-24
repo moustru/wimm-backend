@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     const authHeader = req.get('Authorization');
 
     if(!authHeader) {
-        res.status(401).json({ message: 'Токен не найден' })
+        return res.status(401).json({ message: 'Токен не найден' })
     } else {
         const token = authHeader.replace('Bearer ', '');
 
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
             jwt.verify(token, process.env.SECRET_KEY);
         } catch(e) {
             if(e instanceof jwt.JsonWebTokenError) {
-                res.status(401).json({ message: 'Неверный токен' })
+                return res.status(401).json({ message: 'Неверный токен' })
             }
         }
     }

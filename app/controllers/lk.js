@@ -12,18 +12,6 @@ const getCosts = (req, res) => {
   })
 }
 
-const getCostsFromCategories = (req, res) => {
-  Transaction.find({
-    user: req.params.id,
-    createdAt: req.query.dateFrom <= this.createdAt <= req.query.dateTo,
-    category: req.query.category
-  }, (err, results) => {
-    if(err) return res.status(500).json({ message: err.message })
-    
-    return res.send(results)
-  })
-}
-
 const addTransaction = (req, res) => {
   if(!req.body || !req.body.money) return res.sendStatus(400)
 
@@ -42,6 +30,5 @@ const addTransaction = (req, res) => {
 
 module.exports = {
   getCosts,
-  getCostsFromCategories,
   addTransaction
 }
