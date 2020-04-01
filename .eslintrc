@@ -1,0 +1,11 @@
+{
+  "extends": ["node"],
+  "rules": {
+    "semi": [ "error", "never" ],
+    "indent": [ "error", 2 ],
+    "import/no-commonjs": "off",
+    "no-else-return": "off",
+    "no-sync": "off",
+    "no-console": "off"
+  }
+}

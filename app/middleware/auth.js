@@ -1,22 +1,22 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 module.exports = (req, res, next) => {
-    const authHeader = req.get('Authorization');
+  const authHeader = req.get('Authorization')
 
-    if(!authHeader) {
-        return res.status(401).json({ message: 'Токен не найден' })
-    } else {
-        const token = authHeader.replace('Bearer ', '');
+  if(!authHeader) {
+    return res.status(401).json({ message: 'Токен не найден' })
+  } else {
+    const token = authHeader.replace('Bearer ', '')
 
-        try {
-            jwt.verify(token, process.env.SECRET_KEY);
-        } catch(e) {
-            if(e instanceof jwt.JsonWebTokenError) {
-                return res.status(401).json({ message: 'Неверный токен' })
-            }
-        }
+    try {
+      jwt.verify(token, process.env.SECRET_KEY)
+    } catch(e) {
+      if(e instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json({ message: 'Неверный токен' })
+      }
     }
+  }
 
-    next();
+  next()
 }

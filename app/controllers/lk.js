@@ -15,13 +15,15 @@ const getCosts = (req, res) => {
 const addTransaction = (req, res) => {
   if(!req.body || !req.body.money) return res.sendStatus(400)
 
+  const { user, money, category, comment } = req.body
+
   Transaction.create({
-    user: req.body.user,
+    user,
     createdAt: new Date().getTime(),
-    money: req.body.money,
-    category: req.body.category,
-    comment: req.body.comment
-  }, (err, results) => {
+    money,
+    category,
+    comment
+  }, err => {
     if(err) return res.status(400).json({ message: err.message })
     
     return res.status(200).json('Success!')
